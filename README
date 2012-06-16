@@ -1,0 +1,41 @@
+--------------------------------------------------------------------------------
+     _  _                                _                                              _       _ 
+    | |(_)                              | |                                            | |     | |
+  _ | | _  ____ ____   ____  ___        | | _   ____  ___  ____         ____   ___   _ | | ____| |
+ / || || |/ _  |  _ \ / _  |/ _ \       | || \ / _  |/___)/ _  )       |    \ / _ \ / || |/ _  ) |
+( (_| || ( ( | | | | ( ( | | |_| |______| |_) | ( | |___ ( (/ / _______| | | | |_| ( (_| ( (/ /| |
+ \____|| |\_||_|_| |_|\_|| |\___(_______)____/ \_||_(___/ \____|_______)_|_|_|\___/ \____|\____)_|
+     (__/            (_____|                                                                      
+
+Extensions to the Django Base Model and Django Model Manager/
+
+Requires Python 2.5 or later.
+
+Website: http://rogeliorv.github.com/
+Git Repository: http://github.com/rogeliorv/django_base_model.git
+
+
+--------------------------------------------------------------------------------
+
+To make use of the classes in this package:
+
+1) Create your own django project (python django-admin.py startproject)
+2) Create a django application (python manage.py startproject sampleapp)
+3) Add your newly created application to INSTALLED_APPS in settings.py
+3) In models.py add the following lines
+
+from django_base_model import ExtendedBaseModel, ExtendedBaseModelManager
+from django.db import models
+
+class ExampleModel(ExtendedBaseModel):
+    text = models.CharField(max_length = 256)
+    objects = ExtendedBaseModelManager()
+    
+
+--------------------------------------------------------------------------------
+
+How to contribute a patch:
+  1. Fork django_base_model on github.com
+  2. Create a new branch
+  3. Commit changes to this branch
+  4. Send a pull request

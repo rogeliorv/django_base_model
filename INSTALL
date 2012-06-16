@@ -1,0 +1,9 @@
+setuptools - from Git repository
+--------------------------------
+> git clone git://github.com/rogeliorv/django_base_model.git
+> cd django_base_model
+> python setup.py install (run as admin/root)
+
+pip - from Git repository
+--------------------------------
+>pip install git+git://github.com/rogeliorv/django_base_model.git
