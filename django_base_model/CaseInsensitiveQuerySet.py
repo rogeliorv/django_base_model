@@ -38,7 +38,6 @@ class CaseInsensitiveQuerySet(QuerySet):
     
     def _filter_or_exclude(self, mapper, *args, **kwargs):
         '''Executes filter or exclusion in a case insensitive fashion'''
-        print kwargs
         # 'name' is a field in your Model whose lookups you want case-insensitive by default
         if 'name' in kwargs:
             kwargs['name__iexact'] = kwargs['name']
