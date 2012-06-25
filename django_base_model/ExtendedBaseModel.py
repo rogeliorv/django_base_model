@@ -53,7 +53,6 @@ class ExtendedBaseModel(models.Model):
         When the user wants to create an object and it clashes a soft_deleted object we
         proceed to un-delete the object and update it with the new information provided by the user.
         '''
-        
         try:
             super(ExtendedBaseModel, self).save(*args, **kwargs)
         except IntegrityError, e:
@@ -62,14 +61,10 @@ class ExtendedBaseModel(models.Model):
             # See get_query_set in the objects manager
             reason = e.args[1].lower()
             if not ('primary' in reason or 
-                    'unique' in reason or
-                    'duplicate' in reason):
+                    'unique' in reason):
                 raise
-                
-            # Try to get the previous record if there is any
-            query_set = self.__class__.objects.pure_query_set()
-            previous = query_set.get(pk = self.pk)
-            if previous.deleted:
-                kwargs['force_update'] = True
-                kwargs['force_insert'] = False
-                return self.save(*args, **kwargs)
+            
+            kwargs['force_update'] = True
+            kwargs['force_insert'] = False
+            print "FIXING"
+            return self.save(*args, **kwargs)
