@@ -8,7 +8,7 @@ Created on Jun 15, 2012
 from setuptools import setup, find_packages
 
 setup(name="django_base_model",
-      version="0.2",
+      version="0.2.1",
       description="A model from which all django models can extend. Gives some additional utility functions",
       license="MIT",
       author="@rogeliorv",

@@ -61,17 +61,15 @@ class ExtendedBaseModel(models.Model):
             # since the query set used is made to not return soft deleted items
             # See get_query_set in the objects manager
             reason = e.args[1].lower()
-            if 'primary' in reason or 'unique' in reason:
-                try:
-                    # Try to get the previous record if there is any
-                    query_set = self.__class__.objects.pure_query_set()
-                    previous = query_set.get(pk = self.pk)
-                    if previous.deleted:
-                        kwargs['force_update'] = True
-                        kwargs['force_insert'] = False
-                        return self.save(*args, **kwargs)
-                    raise
-                except ObjectDoesNotExist:
-                    raise
-            else:
+            if not ('primary' in reason or 
+                    'unique' in reason or
+                    'duplicate' in reason):
                 raise
+                
+            # Try to get the previous record if there is any
+            query_set = self.__class__.objects.pure_query_set()
+            previous = query_set.get(pk = self.pk)
+            if previous.deleted:
+                kwargs['force_update'] = True
+                kwargs['force_insert'] = False
+                return self.save(*args, **kwargs)
