@@ -1,3 +1,4 @@
 from CaseInsensitiveQuerySet import CaseInsensitiveQuerySet
 from ExtendedBaseModel import ExtendedBaseModel
+from ExtendedBaseModel import TimeStampedExtendedBaseModel
 from ExtendedBaseModelManager import ExtendedBaseModelManager

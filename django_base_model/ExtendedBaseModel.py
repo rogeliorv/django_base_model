@@ -8,9 +8,10 @@ Created on Jun 15, 2012
 from django.db import models
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.utils import IntegrityError    
-
 from ExtendedBaseModelManager import ExtendedBaseModelManager
     
+    
+from django_extensions.db.models import TimeStampedModel
 
 class ExtendedBaseModel(models.Model):
     '''This model is an extension of models.Model aimed to provide additional functionality by 
@@ -27,6 +28,7 @@ class ExtendedBaseModel(models.Model):
     '''
     
     deleted = models.BooleanField(null=False, default=False)
+        
     # The objects object
     objects = ExtendedBaseModelManager()
     
@@ -50,8 +52,12 @@ class ExtendedBaseModel(models.Model):
         '''Saves the object to the database.
         
         Additional steps are necessary to support soft deletion.
-        When the user wants to create an object and it clashes a soft_deleted object we
-        proceed to un-delete the object and update it with the new information provided by the user.
+        
+        Since soft-deleted persist in the database, when an INSERT is issued the
+        result is an IntegrityError due to a duplicated primary key.
+        
+        The way this is resolved is by putting the deleted flag to False and 
+        updating the existing record with the new information.
         '''
         try:
             super(ExtendedBaseModel, self).save(*args, **kwargs)
@@ -66,5 +72,12 @@ class ExtendedBaseModel(models.Model):
             
             kwargs['force_update'] = True
             kwargs['force_insert'] = False
-            print "FIXING"
             return self.save(*args, **kwargs)
+        
+class TimeStampedExtendedBaseModel(ExtendedBaseModel, TimeStampedModel):
+    
+    # The objects object
+    objects = ExtendedBaseModelManager()    
+    
+    class Meta:
+        abstract = True
